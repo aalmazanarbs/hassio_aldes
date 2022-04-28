@@ -1,0 +1,11 @@
+{
+    "domain": "aldes",
+    "name": "Aldes",
+    "documentation": "https://github.com/aalmazanarbs/hassio_aldes",
+    "dependencies": [],
+    "codeowners": ["@aalmazanarbs"],
+    "requirements": [],
+    "iot_class": "cloud_polling",
+    "version": "0.0.1",
+    "config_flow": true
+}
