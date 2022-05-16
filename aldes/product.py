@@ -50,6 +50,6 @@ class AldesProduct:
         await self._aldesApi.request_set_mode(self._id, self._MODES[display_mode])
     
     async def update(self) -> None:
-        data = await self._aldesApi.get_product_data(self._id)
+        data = await self._aldesApi.get_product(self._id)
         if (mode := data.get('mode')) is not None:
             self._mode = mode

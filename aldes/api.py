@@ -13,6 +13,9 @@ class Oauth2Token:
         self.access_token  = access_token
         self.expires_in    = expires_in
         self.refresh_token = refresh_token
+    
+    def build_authorization(self) -> str:
+        return f'{self.token_type} {self.access_token}'
 
 class AldesApi:
 
@@ -51,36 +54,24 @@ class AldesApi:
         if not self._token:
             return []
         
-        headers: Dict = {
-            self._AUTHORIZATION_HEADER_KEY : f'{self._token.token_type} {self._token.access_token}'
-        }
-        
-        async with self._session.get(f'{self._BASE_URL}/aldesoc/v5/users/me/products', headers = headers) as response:
+        async with await self._request_with_auth_interceptor(self._session.get, f'{self._BASE_URL}/aldesoc/v5/users/me/products') as response:
             json = await response.json()
             if response.status == 200:
                 return [AldesProduct(self, product['modem'], product['reference'], self._extract_product_mode(product)) for product in json]
             else:
                 return []
     
-    async def get_product_data(self, product_id: str) -> Dict[str, Any]:
+    async def get_product(self, product_id: str) -> Dict[str, Any]:
         if not self._token:
             return {}
         
-        headers: Dict = {
-            self._AUTHORIZATION_HEADER_KEY : f'{self._token.token_type} {self._token.access_token}'
-        }
-        
-        async with self._session.get(f'{self._BASE_URL}/aldesoc/v5/users/me/products/{product_id}', headers = headers) as response:
+        async with await self._request_with_auth_interceptor(self._session.get, f'{self._BASE_URL}/aldesoc/v5/users/me/products/{product_id}') as response:
             json = await response.json()
             return {'mode': self._extract_product_mode(json)} if response.status == 200 else {}
     
     async def request_set_mode(self, product_id: str, mode: str) -> None:
         if not self._token:
             return
-
-        headers: Dict = {
-            self._AUTHORIZATION_HEADER_KEY : f'{self._token.token_type} {self._token.access_token}'
-        }
 
         body: Dict = {
             'id'      : 1,
@@ -89,8 +80,17 @@ class AldesApi:
             'params'  : self._build_mode(mode)
         }
 
-        async with self._session.post(f'{self._BASE_URL}/aldesoc/v5/users/me/products/{product_id}/commands', headers = headers, json = body) as response:
+        async with await self._request_with_auth_interceptor(self._session.post, f'{self._BASE_URL}/aldesoc/v5/users/me/products/{product_id}/commands', json = body) as response:
             response.raise_for_status()
+
+    async def _request_with_auth_interceptor(self, request, url, **kwargs):
+        initial_response = await request(url, headers = {self._AUTHORIZATION_HEADER_KEY : self._token.build_authorization()}, **kwargs)
+        if initial_response.status == 401:
+            initial_response.close()
+            await self.authenticate()
+            return request(url, headers = {self._AUTHORIZATION_HEADER_KEY: self._token.build_authorization()}, **kwargs)
+        else:
+            return initial_response
     
     def _extract_product_mode(self, product: Any) -> str:
         return list(filter(lambda indicator: indicator['type'] == 'MODE', product['indicators']))[0]['value']
