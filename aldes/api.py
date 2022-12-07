@@ -7,7 +7,7 @@ from .product import HOLIDAYS_MODE, AldesProduct
 
 class Oauth2Token:
 
-    def __init__(self, scope: str, token_type: str, access_token: str, expires_in: int, refresh_token: str):
+    def __init__(self, scope: str, token_type: str, access_token: str, expires_in: int, refresh_token: str, **kwargs):
         self.scope         = scope
         self.token_type    = token_type
         self.access_token  = access_token
@@ -43,7 +43,7 @@ class AldesApi:
             self._PASSWORD_KEY : self._password
         }
 
-        async with self._session.post(f'{self._BASE_URL}/oauth2/token', data = data) as response:            
+        async with self._session.post(f'{self._BASE_URL}/oauth2/token', data = data) as response:
             json = await response.json()
             if response.status == 200:
                 self._token = Oauth2Token(**json)
