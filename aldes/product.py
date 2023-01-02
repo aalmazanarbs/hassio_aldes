@@ -12,7 +12,8 @@ class AldesProduct:
         'Holidays' : HOLIDAYS_MODE,
         'Daily'    : 'V',
         'Boost'    : 'Y',
-        'Guest'    : 'X'
+        'Guest'    : 'X',
+        'Air Prog' : 'Z'
     }
 
     _DISPLAY_NAMES = {
