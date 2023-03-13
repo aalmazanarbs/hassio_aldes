@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from aiohttp import ClientSession
 
-from .product import HOLIDAYS_MODE, AldesProduct
+from .product import HOLIDAYS_MODE, AldesProduct, is_product_supported
 
 class Oauth2Token:
 
@@ -57,7 +57,8 @@ class AldesApi:
         async with await self._request_with_auth_interceptor(self._session.get, f'{self._BASE_URL}/aldesoc/v5/users/me/products') as response:
             json = await response.json()
             if response.status == 200:
-                return [AldesProduct(self, product['modem'], product['reference'], self._extract_product_mode(product)) for product in json]
+                supported_products = list(filter(lambda product: is_product_supported(product['reference']), json))
+                return [AldesProduct(self, product['modem'], product['reference'], self._extract_product_mode(product)) for product in supported_products]
             else:
                 return []
     
