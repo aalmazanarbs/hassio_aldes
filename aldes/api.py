@@ -7,15 +7,12 @@ from .product import HOLIDAYS_MODE, AldesProduct, is_product_supported
 
 class Oauth2Token:
 
-    def __init__(self, scope: str, token_type: str, access_token: str, expires_in: int, refresh_token: str, **kwargs):
-        self.scope         = scope
-        self.token_type    = token_type
-        self.access_token  = access_token
-        self.expires_in    = expires_in
-        self.refresh_token = refresh_token
+    def __init__(self, token_type: str, access_token: str, **kwargs):
+        self._token_type   = token_type
+        self._access_token = access_token
     
     def build_authorization(self) -> str:
-        return f'{self.token_type} {self.access_token}'
+        return f'{self._token_type} {self._access_token}'
 
 class AldesApi:
 
@@ -24,7 +21,7 @@ class AldesApi:
     _USERNAME_KEY             = 'username'
     _PASSWORD_KEY             = 'password'
     _AUTHORIZATION_HEADER_KEY = 'Authorization'
-    _API_UTC_FORMAT           = '%Y%m%d%H%M%SZ' 
+    _API_UTC_FORMAT           = '%Y%m%d%H%M%SZ'
 
     _token: Oauth2Token = None
 
