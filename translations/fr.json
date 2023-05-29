@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Aldes",
+        "description": "Entrez vos identifiants",
+        "data": {
+          "username": "Email",
+          "password": "Mot de passe"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Connection échouée",
+      "invalid_auth": "Identifiants invalides",
+      "unknown": "Erreur inconnue"
+    }
+  }
+}
