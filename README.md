@@ -11,7 +11,7 @@ Check the list of [supported products](https://github.com/aalmazanarbs/hassio_al
 * Allow to change Aldes products mode
 * Configure `Holidays` mode without specifying date
 
-#Installation on Home Assistant
+##Installation on Home Assistant
 Download all files and copy them to "config/custom_components/aldes".
 Restart your Home Assistant and add Aldes integration in Integration section.
 Use your Aldesconnect credentials to login.
