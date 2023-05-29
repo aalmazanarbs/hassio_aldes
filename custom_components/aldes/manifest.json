@@ -6,6 +6,7 @@
     "codeowners": ["@aalmazanarbs"],
     "requirements": [],
     "iot_class": "cloud_polling",
+    "issue_tracker": "https://github.com/aalmazanarbs/hassio_aldes/issues",
     "version": "0.0.1",
     "config_flow": true
 }
