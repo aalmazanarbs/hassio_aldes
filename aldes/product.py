@@ -19,7 +19,8 @@ _MODES = {
 
 _DISPLAY_NAMES: Final = {
     'INSPIRAIR_HOME_S' : 'InspirAIR® Home S',
-    'EASY_HOME_CONNECT' : 'EASYHOME PureAir Compact CONNECT'
+    'EASY_HOME_CONNECT' : 'EASYHOME PureAir Compact CONNECT',
+    'DEE_FLY_CUBE' : 'Dee Fly Cube'
 }
 
 class AldesProduct:
