@@ -93,6 +93,9 @@ class AldesApi:
     def _extract_product_mode(self, product: Any) -> str:
         return list(filter(lambda indicator: indicator['type'] == 'MODE', product['indicators']))[0]['value']
     
+    def _extract_product_sensor_value(self, product: Any, Sensor: str) -> str:
+        return list(filter(lambda indicator: indicator[Sensor] != null, product['indicator']))[0]['value']
+    
     def _build_mode(self, mode: str) -> List[str]:
         if mode == HOLIDAYS_MODE:
             return self._build_holidays_mode(mode)
