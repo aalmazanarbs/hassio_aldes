@@ -14,7 +14,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
 
 class AldesProductEntitySensor(AldesProductEntity, SensorEntity):
 
-    _attr_icon = "mdi:tune"
+    _attr_icon = "mdi:temperature-celsius"
     _attr_unit_of_measurement = None
     _attr_entity_category = EntityCategory.CONFIG
 
