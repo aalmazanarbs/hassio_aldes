@@ -26,8 +26,8 @@ class AldesProductEntitySensor(AldesProductEntity, SensorEntity):
         self._attr_native_unit_of_measurement = TEMP_CELSIUS
 
     @property
-    def current_option(self) -> str:
-        return self.coordinator.product.get_display_mode()
+    def native_value(self) -> str:
+        return self.coordinator.product.get_sensor_value()
 
     async def async_select_option(self, option: str) -> None:
         await self.coordinator.product.maybe_set_mode_from_display(option)
