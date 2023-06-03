@@ -24,11 +24,12 @@ _DISPLAY_NAMES: Final = {
 
 class AldesProduct:
 
-    def __init__(self, aldesApi: api.AldesApi, id: str, name: str, mode: str):
+    def __init__(self, aldesApi: api.AldesApi, id: str, name: str, mode: str, tmpcu: str):
         self._aldesApi = aldesApi
         self._id       = id
         self._name     = name
         self._mode     = mode
+        self._tmpcu    = tmpcu
     
     @property
     def id(self):
@@ -50,7 +51,7 @@ class AldesProduct:
                 return display_mode
         
         raise ValueError(f'Mode {self._mode} is not managed, please report.')
-    
+
     async def maybe_set_mode_from_display(self, display_mode: str) -> None:
         await self._aldesApi.request_set_mode(self._id, _MODES[display_mode])
     
@@ -58,3 +59,5 @@ class AldesProduct:
         data = await self._aldesApi.get_product(self._id)
         if (mode := data.get('mode')) is not None:
             self._mode = mode
+        if (tmpcu := data.get('tmpcu')) is not None:
+            self._tmpcu = tmpcu
