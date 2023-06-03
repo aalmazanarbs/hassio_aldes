@@ -8,7 +8,7 @@ from .aldes.api import AldesApi
 from .const import DOMAIN, PRODUCT_COORDINATORS
 from .entity import AldesProductDataUpdateCoordinator
 
-PLATFORMS = [Platform.SELECT]
+PLATFORMS = [Platform.SELECT, Platform.SENSOR]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     aldesApi = AldesApi(async_get_clientsession(hass), entry.data[CONF_USERNAME], entry.data[CONF_PASSWORD])
